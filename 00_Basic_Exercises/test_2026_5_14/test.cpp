@@ -30,5 +30,6 @@ void f(const Date &d)
 int main()
 {
     Date d1(2026, 4, 29);
+    f(d1);
     return 0;
 }
