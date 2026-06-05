@@ -40,6 +40,8 @@ public:
 // 运算符重载 (非成员函数声明)
 MyString operator+(const MyString &lhs, const MyString &rhs);
 std::ostream &operator<<(std::ostream &os, const MyString &str);
+std::istream &operator>>(std::istream &is, MyString &str);
+std::istream &getline(std::istream &is, MyString &str, char delim = '\n');
 
 bool operator==(const MyString &lhs, const MyString &rhs);
 bool operator!=(const MyString &lhs, const MyString &rhs);

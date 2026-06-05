@@ -170,6 +170,82 @@ ostream &operator<<(ostream &os, const MyString &str)
     return os;
 }
 
+// 19. 重载流提取运算符 (>>)
+istream &operator>>(istream &is, MyString &str)
+{
+    // 先清空原本字符串里的旧数据（直接赋一个空字符串对象）
+    str = MyString();
+
+    char ch;
+    // 跳过前导空白字符（空格、回车、制表符等）
+    while (is.get(ch) && isspace(ch))
+    {
+    }
+
+    // 如果读到文件尾(EOF)或者流出错，直接返回
+    if (!is)
+        return is;
+
+    // 此时 ch 已经是第一个有效字符了
+    char buf[1024];
+    size_t index = 0;
+    buf[index++] = ch;
+
+    // 循环读取，直到遇到下一个空白字符
+    while (is.get(ch) && !isspace(ch))
+    {
+        buf[index++] = ch;
+        if (index >= 1023)
+        {
+            buf[index] = '\0';
+            str += MyString(buf);
+            index = 0;
+        }
+    }
+
+    // 把最后残留在缓冲区的数据追加到 str
+    if (index > 0)
+    {
+        buf[index] = '\0';
+        str += MyString(buf);
+    }
+
+    return is;
+}
+
+// 20. 实现 getline 函数
+// 核心逻辑：不跳过前导空白，一直读取直到遇到指定的结束符（默认是 '\n'）
+istream &getline(istream &is, MyString &str, char delim)
+{
+    // 清空原本的数据
+    str = MyString();
+
+    char buf[1024];
+    size_t index = 0;
+    char ch;
+
+    // 循环读取，直到读到分隔符或者流结束
+    while (is.get(ch) && ch != delim)
+    {
+        buf[index++] = ch;
+        if (index >= 1023) // 缓冲区满了，先倒进 str
+        {
+            buf[index] = '\0';
+            str += MyString(buf);
+            index = 0;
+        }
+    }
+
+    // 倒出最后残留的数据
+    if (index > 0)
+    {
+        buf[index] = '\0';
+        str += MyString(buf);
+    }
+
+    return is;
+}
+
 // 13. 比较操作符
 bool operator==(const MyString &lhs, const MyString &rhs)
 {

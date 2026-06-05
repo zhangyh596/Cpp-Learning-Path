@@ -97,6 +97,27 @@ void test7()
     cout << (s1 != s2 ? "Yes" : "No") << endl;
 }
 
+void test8()
+{
+    MyString s1;
+    MyString s2;
+
+    cout << "========= 测试 cin >> =========" << endl;
+    cout << "请输入两个单词（用空格隔开）: ";
+    cin >> s1 >> s2;
+    cout << "读取到的单词 1: " << s1 << endl;
+    cout << "读取到的单词 2: " << s2 << endl;
+
+    // 吸收掉残留的回车符，防止影响接下来的 getline
+    char flush_char;
+    cin.get(flush_char);
+
+    cout << "\n========= 测试 getline =========" << endl;
+    cout << "请输入一整行带空格的句子: ";
+    getline(cin, s1);
+    cout << "读取到的整行内容为: " << s1 << endl;
+}
+
 int main()
 {
     cout << "--- 测试 ---" << endl;
@@ -106,6 +127,7 @@ int main()
     // test4();
     // test5();
     // test6();
-    test7();
+    // test7();
+    test8();
     return 0;
 }
