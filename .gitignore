@@ -13,7 +13,7 @@ bin-release/
 *.ipa
 *.apk
 
-#过滤掉不想要文件和文件夹
+# 过滤掉不想要文件和文件夹（原本的 Windows 过滤）
 *.exe
 *.sln
 *.vcxproj
@@ -26,6 +26,11 @@ Debug/
 .vs
 Release/
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# === 新增：精准拦截 Linux 编译产物，防止污染 GitHub ===
+main
+main_linux
+*.o
+*.out
+
+# Project files
+# should NOT be excluded as they contain compiler settings
