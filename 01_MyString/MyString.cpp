@@ -170,7 +170,7 @@ ostream &operator<<(ostream &os, const MyString &str)
     return os;
 }
 
-// 19. 重载流提取运算符 (>>)
+// 14. 重载流提取运算符 (>>)
 istream &operator>>(istream &is, MyString &str)
 {
     // 先清空原本字符串里的旧数据（直接赋一个空字符串对象）
@@ -213,7 +213,7 @@ istream &operator>>(istream &is, MyString &str)
     return is;
 }
 
-// 20. 实现 getline 函数
+// 15. 实现 getline 函数
 // 核心逻辑：不跳过前导空白，一直读取直到遇到指定的结束符（默认是 '\n'）
 istream &getline(istream &is, MyString &str, char delim)
 {

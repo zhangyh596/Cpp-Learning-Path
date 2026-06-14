@@ -23,7 +23,35 @@ void test2()
     cout << "修改后s2为：" << s2.c_str() << endl;
 }
 
-void test3()
+void test3_1()
+{
+    MyString s1("Apple");
+    MyString s2("Banana");
+    MyString s3("Orange");
+
+    cout << "赋值前:" << endl;
+    cout << "s1: " << s1.c_str() << ", s2: " << s2.c_str() << ", s3: " << s3.c_str() << endl;
+
+    // 测试点 1：连续赋值 (s3 = s2 = s1)
+    s3 = s2 = s1;
+
+    cout << "\n连续赋值后:" << endl;
+    cout << "s1: " << s1.c_str() << ", s2: " << s2.c_str() << ", s3: " << s3.c_str() << endl;
+
+    // 测试点 2：修改 s2，看看 s1 和 s3 会不会被影响（验证深拷贝）
+    s2.set_char(0, 'G'); // 把 s2 改成 "Gpple"
+
+    cout << "\n修改 s2 后的独立性测试:" << endl;
+    cout << "s1 (应该还是 Apple): " << s1.c_str() << endl;
+    cout << "s2 (应该变成了 Gpple): " << s2.c_str() << endl;
+    cout << "s3 (应该还是 Apple): " << s3.c_str() << endl;
+
+    // 测试点 3：自我赋值测试，确保不崩溃
+    s1 = s1;
+    cout << "\n自我赋值后 s1 依然完好: " << s1.c_str() << endl;
+}
+
+void test3_2()
 {
     MyString s1("very long string");
     cout << "s1初始内容：" << s1.c_str() << endl;
