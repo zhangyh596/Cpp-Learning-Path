@@ -69,7 +69,7 @@ namespace zyh
         }
 
         // 后置 -- 操作符
-        self opperator--(int)
+        self operator--(int)
         {
             self tmp(*this);
             _node = _node->_prev;
@@ -94,11 +94,13 @@ namespace zyh
 
     private:
         link_type _head; // 哨兵节点
+        size_t _size;
 
     public:
         // 构造函数
         list()
         {
+            _size = 0;
             _head = new __list_node<T>();
 
             _head->_next = _head;
@@ -189,6 +191,8 @@ namespace zyh
             prev->_next = new_node;
             curr->_prev = new_node;
 
+            ++_size;
+
             // 回指向新节点的迭代器
             return iterator(new_node);
         }
@@ -218,6 +222,8 @@ namespace zyh
 
             delete curr;
 
+            --_size;
+
             return iterator(next);
         }
 
@@ -231,6 +237,30 @@ namespace zyh
                 // erase 会把当前车厢砸掉，并把下一个车厢的遥控器交给我们，我们直接接住！
                 it = erase(it);
             }
+        }
+
+        // 辅助函数：判断链表是否为空
+        bool empty() const
+        {
+            return _head->_next == _head;
+        }
+
+        // 头删
+        void pop_front()
+        {
+            erase(begin());
+        }
+
+        // 尾删
+        void pop_back()
+        {
+            // 要删最后一个，就是 end() 的前一个
+            erase(--end());
+        }
+
+        size_t size() const
+        {
+            return _size;
         }
 
         ~list()
