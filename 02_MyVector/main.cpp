@@ -1,12 +1,11 @@
 #include <iostream>
 #include <string>
 #include "MyVector.h"
-using namespace zyh;
 using namespace std;
 
 void test1()
 {
-    vector<int> v;
+    zyh::vector<int> v;
     // 阶段 1：初始状态
     cout << "--- 阶段 1 ---" << endl;
     cout << "Size: " << v.size() << ", Capacity: " << v.capacity() << endl;
@@ -27,7 +26,7 @@ void test1()
     // 阶段 4：遍历打印
     cout << "--- 阶段 4 元素内容 ---" << endl;
     // 利用我们刚学过的：iterator 就是原生指针，直接用它来遍历！
-    for (vector<int>::iterator it = v.begin(); it != v.end(); ++it)
+    for (zyh::vector<int>::iterator it = v.begin(); it != v.end(); ++it)
     {
         cout << *it << " ";
     }
@@ -38,11 +37,11 @@ void test2()
 {
     cout << "=== 阶段 1：构建 v1 ===" << endl;
     // 创建一个装了 3 个 "Hello" 的容器
-    vector<string> v1(3, "Hello");
+    zyh::vector<string> v1(3, "Hello");
 
     cout << "=== 阶段 2：触发深拷贝构建 v2 ===" << endl;
     // 这里会精准调用你刚刚手写的【拷贝构造函数】！
-    vector<string> v2(v1);
+    zyh::vector<string> v2(v1);
 
     cout << "=== 阶段 3：验证物理隔离 ===" << endl;
     // 给 v2 单独尾插一个新字符串，看看会不会影响 v1
@@ -50,7 +49,7 @@ void test2()
 
     // 打印 v1
     cout << "v1 (size: " << v1.size() << ") 元素: ";
-    for (vector<string>::iterator it = v1.begin(); it != v1.end(); ++it)
+    for (zyh::vector<string>::iterator it = v1.begin(); it != v1.end(); ++it)
     {
         cout << *it << " ";
     }
@@ -58,7 +57,7 @@ void test2()
 
     // 打印 v2
     cout << "v2 (size: " << v2.size() << ") 元素: ";
-    for (vector<string>::iterator it = v2.begin(); it != v2.end(); ++it)
+    for (zyh::vector<string>::iterator it = v2.begin(); it != v2.end(); ++it)
     {
         cout << *it << " ";
     }
@@ -74,10 +73,10 @@ void test3()
 {
     cout << "=== 阶段 1：准备测试数据 ===" << endl;
     // v1 是我们要被抄袭的“原件”
-    vector<string> v1(2, "Apple");
+    zyh::vector<string> v1(2, "Apple");
 
     // v3 是一个“老油条”，里面已经占用了地皮，存了 3 个 "Banana"
-    vector<string> v3(3, "Banana");
+    zyh::vector<string> v3(3, "Banana");
 
     cout << "=== 阶段 2：触发赋值运算符 ===" << endl;
     // 关键时刻！这里会触发 operator=
@@ -85,7 +84,7 @@ void test3()
     v3 = v1;
 
     cout << "=== 阶段 3：测试连续赋值 (Chain Assignment) ===" << endl;
-    vector<string> v4;
+    zyh::vector<string> v4;
     // 这里先执行 v3 = v1，然后返回 v3 的引用，再执行 v4 = v3
     v4 = v3 = v1;
 
@@ -95,21 +94,21 @@ void test3()
 
     // --- 打印结果 ---
     cout << "v1 (size: " << v1.size() << ") 元素: ";
-    for (vector<string>::iterator it = v1.begin(); it != v1.end(); ++it)
+    for (zyh::vector<string>::iterator it = v1.begin(); it != v1.end(); ++it)
     {
         cout << *it << " ";
     }
     cout << endl;
 
     cout << "v3 (size: " << v3.size() << ") 元素: ";
-    for (vector<string>::iterator it = v3.begin(); it != v3.end(); ++it)
+    for (zyh::vector<string>::iterator it = v3.begin(); it != v3.end(); ++it)
     {
         cout << *it << " ";
     }
     cout << endl;
 
     cout << "v4 (size: " << v4.size() << ") 元素: ";
-    for (vector<string>::iterator it = v4.begin(); it != v4.end(); ++it)
+    for (zyh::vector<string>::iterator it = v4.begin(); it != v4.end(); ++it)
     {
         cout << *it << " ";
     }
@@ -123,7 +122,7 @@ void test3()
 void test4()
 {
     cout << "=== 阶段 1：测试 push_back 和 operator[] ===" << endl;
-    vector<string> v;
+    zyh::vector<string> v;
 
     // 连续放入 4 个元素，假设此时容量刚好达到了 4
     v.push_back("A");
@@ -142,7 +141,7 @@ void test4()
     cout << "=== 阶段 2：触发致命危机 (扩容 + 插入) ===" << endl;
     // 此时 v 的 size 是 4，capacity 也是 4，仓库已满！
     // 我们获取一个指向第二个元素 "B" 的迭代器（此时它指向旧地皮）
-    vector<string>::iterator it = v.begin() + 1;
+    zyh::vector<string>::iterator it = v.begin() + 1;
 
     cout << "准备在 'B' 的位置前面插入一个 'X'..." << endl;
     // 关键时刻！
@@ -152,7 +151,7 @@ void test4()
     cout << "插入成功！没有发生崩溃！\n\n";
 
     cout << "=== 阶段 3：验证挪动结果 ===" << endl;
-    cout << "插入后 vector 大小: " << v.size() << "，容量: " << v.capacity() << endl;
+    cout << "插入后 zyh::vector 大小: " << v.size() << "，容量: " << v.capacity() << endl;
     cout << "最终元素: ";
     for (size_t i = 0; i < v.size(); ++i)
     {
@@ -163,7 +162,7 @@ void test4()
 
 void test5()
 {
-    vector<string> v;
+    zyh::vector<string> v;
     v.push_back("Apple");
     v.push_back("Banana");
     v.push_back("Cherry");
@@ -179,7 +178,7 @@ void test5()
 
     cout << "=== 阶段 2：测试 erase (删除 Banana) ===" << endl;
     // 获取指向 "Banana" 的迭代器 (begin + 1)
-    vector<string>::iterator it = v.begin() + 1;
+    zyh::vector<string>::iterator it = v.begin() + 1;
 
     // 删除它，并接收返回的新迭代器
     it = v.erase(it);
@@ -208,12 +207,12 @@ void test5()
 
 void test6()
 {
-    vector<string> v;
+    zyh::vector<string> v;
 
     cout << "=== 阶段 1：测试 empty ===" << endl;
     if (v.empty())
     {
-        cout << "刚初始化的 vector 是空的！(验证成功)\n\n";
+        cout << "刚初始化的 zyh::vector 是空的！(验证成功)\n\n";
     }
 
     cout << "=== 阶段 2：填入初始数据 ===" << endl;
