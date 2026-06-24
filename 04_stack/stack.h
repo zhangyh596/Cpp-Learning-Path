@@ -30,11 +30,19 @@ namespace zyh
             return c.back();
         }
 
+        // const版本获取栈顶元素
+        const T &top() const
+        {
+            return c.back();
+        }
+
+        // 判断是否为空
         bool empty() const
         {
             return c.empty();
         }
 
+        // 获取大小
         size_t size() const
         {
             return c.size();
