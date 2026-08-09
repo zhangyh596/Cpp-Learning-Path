@@ -13,7 +13,7 @@ namespace zyh
         T _data;
     };
 
-    // 普通迭代器
+    // 终极形态迭代器
     template <typename T, typename Ref, typename Ptr>
     struct __list_iterator
     {

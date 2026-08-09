@@ -145,11 +145,11 @@ void print_const_list(const zyh::list<Student> &l)
     zyh::list<Student>::const_iterator it = l.begin();
     while (it != l.end())
     {
-        // 🔥 见证奇迹的时刻！直接用 -> 访问结构体零件
+        // 见证奇迹的时刻！直接用 -> 访问结构体零件
         // 底层偷偷执行了: ( it.operator->() )->_name
         cout << "学生姓名: " << it->_name << ", 年龄: " << it->_age << endl;
 
-        // 🧪 恶作剧测试：如果解开下面这行的注释，编译器会立刻拦截，证明 const 锁生效了！
+        // 恶作剧测试：如果解开下面这行的注释，编译器会立刻拦截，证明 const 锁生效了！
         // it->_age = 100;
 
         ++it;
@@ -218,19 +218,19 @@ void test5()
     while (it != my_list.end())
     {
         cout << *it << " ";
-        it++; // 👈 专门测试你的后置 ++
+        it++; // 专门测试你的后置 ++
     }
     cout << "\n\n";
 
     cout << "[测试 4] 使用倒车档逆向遍历 (从尾开到头):\n";
     zyh::list<int>::iterator rit = my_list.end();
-    rit--; // 👈 先测试后置 --，把迭代器从哨兵节点退到真实的最后一节车厢 (40)
+    rit--; // 先测试后置 --，把迭代器从哨兵节点退到真实的最后一节车厢 (40)
 
     // 得益于我们的双向循环结构，一直倒车直到再次撞到哨兵节点(end)为止
     while (rit != my_list.end())
     {
         cout << *rit << " ";
-        --rit; // 👈 专门测试你的前置 --
+        --rit; // 专门测试你的前置 --
     }
     cout << "\n\n";
 
