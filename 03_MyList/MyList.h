@@ -2,6 +2,8 @@
 #define MY_STL_LIST_HPP
 
 #include <cstddef>
+#include <utility>
+#include <cassert>
 
 namespace zyh
 {
@@ -30,21 +32,27 @@ namespace zyh
         {
         }
 
+        // 支持用普通 iterator 隐式构造 const_iterator
+        __list_iterator(const __list_iterator<T, T &, T *> &it)
+            : _node(it._node)
+        {
+        }
+
         // 普通迭代器的解引用：返回货物的引用
-        Ref operator*()
+        Ref operator*() const
         {
             return _node->_data;
         }
 
         // 重载箭头操作符
-        Ptr operator->()
-        {
-            return &(_node->_data);
-        }
         // 当比如_data是一个自定义的结构体(例如Student)
         // 手写的 operator-> 函数，必须返回一个“原生的指针（内存地址）”
         // 然后，编译器会自动、强行、在后面再补上一个箭头
         // !!! 写下it->age相当于(it.operator->())->age
+        Ptr operator->() const
+        {
+            return &(_node->_data);
+        }
 
         // 前置 ++ 操作符：返回迭代器自己的引用
         self &operator++()
@@ -81,6 +89,12 @@ namespace zyh
         {
             return _node != __x._node;
         }
+
+        // 判断两个迭代器是否指向的节点一样
+        bool operator==(const self &__x) const
+        {
+            return _node == __x._node;
+        }
     };
 
     template <typename T>
@@ -108,14 +122,14 @@ namespace zyh
         }
 
         // 拷贝构造函数
-        list(list<T> &other)
+        list(const list<T> &other) : _size(0)
         {
             _head = new __list_node<T>();
             _head->_next = _head;
             _head->_prev = _head;
 
             // 拿出迭代器，从头到尾遍历另一个链表
-            iterator it = other.begin();
+            const_iterator it = other.begin();
             while (it != other.end())
             {
                 push_back(*it);
@@ -126,6 +140,7 @@ namespace zyh
         void swap(list<T> &other)
         {
             std::swap(_head, other._head);
+            std::swap(_size, other._size);
         }
 
         // 赋值运算符重载（现代写法：Copy-and-Swap（拷贝并交换））
@@ -176,7 +191,7 @@ namespace zyh
         }
 
         // 在指定的位置前面插入一个节点
-        iterator insert(iterator pos, const T &x)
+        iterator insert(const_iterator pos, const T &x)
         {
             link_type curr = pos._node;
 
@@ -210,8 +225,10 @@ namespace zyh
         }
 
         // 任意位置删除，并返回下一个节点的迭代器
-        iterator erase(iterator pos)
+        iterator erase(const_iterator pos)
         {
+            assert(!empty());
+
             link_type curr = pos._node;
 
             link_type prev = curr->_prev;
@@ -248,12 +265,16 @@ namespace zyh
         // 头删
         void pop_front()
         {
+            assert(!empty());
+
             erase(begin());
         }
 
         // 尾删
         void pop_back()
         {
+            assert(!empty());
+
             // 要删最后一个，就是 end() 的前一个
             erase(--end());
         }
